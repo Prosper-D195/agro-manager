@@ -15,10 +15,12 @@ app.use(cookieParser());
 const authRoutes = require('./src/routes/auth');
 const culturesRoutes = require('./src/routes/cultures');
 const recoltesRoutes = require('./src/routes/recoltes');
+const intrantsRoutes = require('./src/routes/intrants');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/cultures', culturesRoutes);
 app.use('/api/recoltes', recoltesRoutes);
+app.use('/api/intrants', intrantsRoutes);
 
 const PORT = process.env.PORT || 5000;
 
