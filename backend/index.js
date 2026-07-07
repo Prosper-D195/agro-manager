@@ -16,11 +16,14 @@ const authRoutes = require('./src/routes/auth');
 const culturesRoutes = require('./src/routes/cultures');
 const recoltesRoutes = require('./src/routes/recoltes');
 const intrantsRoutes = require('./src/routes/intrants');
+const dashboardRoutes = require('./src/routes/dashboard');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/cultures', culturesRoutes);
 app.use('/api/recoltes', recoltesRoutes);
 app.use('/api/intrants', intrantsRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 
