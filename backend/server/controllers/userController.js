@@ -1,97 +1,118 @@
 const bcrypt = require('bcryptjs');
 const sequelize = require('../../src/config/database');
 const User = require('../../src/models/user');
-const { requireRole } = require('../../src/middleware/auth');
+
 
 // GET /api/users - liste des utilisateurs (admin uniquement)
 const getUsers = async (req, res) => {
+  console.log("getUsers called");
   try {
-    await requireRole(req, res, 'admin', async () => {
-      const users = await User.findAll({
-        attributes: ['id', 'email', 'role', 'created_at']
-      });
-      res.json(users);
+    const users = await User.findAll({
+      attributes: ['id', 'email', 'role']
     });
+    console.log("getUsers: users =", users);
+    res.json(users);
   } catch (err) {
+    console.log("getUsers: error =", err.message);
     res.status(500).json({ error: err.message });
   }
 };
+
 
 // POST /api/users - création d’un utilisateur avec rôle
 const createUser = async (req, res) => {
+  console.log("createUser called");
   try {
-    await requireRole(req, res, 'admin', async () => {
-      const { email, password, role } = req.body;
+    const { email, password, role, name } = req.body;
 
-      if (!email || !password || !role) {
-        return res.status(400).json({ error: 'email, password et role sont requis' });
-      }
 
-      const rolesAllowed = ['admin', 'gestionnaire', 'operateur'];
-      if (!rolesAllowed.includes(role)) {
-        return res.status(400).json({ error: 'role invalide' });
-      }
+    if (!email || !password || !role) {
+      return res.status(400).json({ error: 'email, password et role sont requis' });
+    }
 
-      const hashedPassword = await bcrypt.hash(password, 12);
 
-      const user = await User.create({
-        email,
-        password: hashedPassword,
-        role
-      });
+    const rolesAllowed = ['admin', 'gestionnaire', 'operateur'];
+    if (!rolesAllowed.includes(role)) {
+      return res.status(400).json({ error: 'role invalide' });
+    }
 
-      res.status(201).json({ message: 'Utilisateur créé', id: user.id });
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    // name optionnel : si pas fourni, utiliser email
+    const userName = name || email;
+
+
+    const user = await User.create({
+      name: userName,
+      email,
+      password: hashedPassword,
+      role
     });
+
+
+    res.status(201).json({ message: 'Utilisateur créé', id: user.id });
   } catch (err) {
+    console.log("createUser: error =", err.message);
     res.status(500).json({ error: err.message });
   }
 };
+
 
 // PUT /api/users/:id - modification du rôle
 const updateUser = async (req, res) => {
+  console.log("updateUser called");
   try {
-    await requireRole(req, res, 'admin', async () => {
-      const { id } = req.params;
-      const { role } = req.body;
+    const { id } = req.params;
+    const { role } = req.body;
 
-      const rolesAllowed = ['admin', 'gestionnaire', 'operateur'];
-      if (!rolesAllowed.includes(role)) {
-        return res.status(400).json({ error: 'role invalide' });
-      }
 
-      const user = await User.findByPk(id);
-      if (!user) {
-        return res.status(404).json({ error: 'Utilisateur non trouvé' });
-      }
+    const rolesAllowed = ['admin', 'gestionnaire', 'operateur'];
+    if (!rolesAllowed.includes(role)) {
+      return res.status(400).json({ error: 'role invalide' });
+    }
 
-      await user.update({ role });
 
-      res.json({ message: 'Utilisateur modifié' });
-    });
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ error: 'Utilisateur non trouvé' });
+    }
+
+
+    await user.update({ role });
+
+
+    res.json({ message: 'Utilisateur modifié' });
   } catch (err) {
+    console.log("updateUser: error =", err.message);
     res.status(500).json({ error: err.message });
   }
 };
+
 
 // DELETE /api/users/:id - suppression
 const deleteUser = async (req, res) => {
+  console.log("deleteUser called");
   try {
-    await requireRole(req, res, 'admin', async () => {
-      const { id } = req.params;
+    const { id } = req.params;
 
-      const user = await User.findByPk(id);
-      if (!user) {
-        return res.status(404).json({ error: 'Utilisateur non trouvé' });
-      }
 
-      await user.destroy();
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ error: 'Utilisateur non trouvé' });
+    }
 
-      res.json({ message: 'Utilisateur supprimé' });
-    });
+
+    await user.destroy();
+
+
+    res.json({ message: 'Utilisateur supprimé' });
   } catch (err) {
+    console.log("deleteUser: error =", err.message);
     res.status(500).json({ error: err.message });
   }
 };
+
 
 module.exports = {
   getUsers,

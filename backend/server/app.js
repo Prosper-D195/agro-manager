@@ -10,6 +10,8 @@ const intrantsRoutes = require('../src/routes/intrants');
 const dashboardRoutes = require('../src/routes/dashboard');
 const usersRoutes = require('./routes/users');
 
+const { authenticate } = require('../src/middleware/auth');
+
 const app = express();
 
 app.use(cors({
@@ -21,6 +23,16 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+
+// Middleware d’authentification pour toutes les routes /api sauf /api/auth
+app.use('/api', (req, res, next) => {
+  // Si c’est déjà passé par api/auth, on ne veut pas forcer authenticate
+  if (req.path.startsWith('/api/auth')) {
+    return next();
+  }
+  authenticate(req, res, next);
+});
+
 app.use('/api/cultures', culturesRoutes);
 app.use('/api/recoltes', recoltesRoutes);
 app.use('/api/intrants', intrantsRoutes);
