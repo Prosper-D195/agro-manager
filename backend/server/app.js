@@ -9,6 +9,11 @@ const recoltesRoutes = require('../src/routes/recoltes');
 const intrantsRoutes = require('../src/routes/intrants');
 const dashboardRoutes = require('../src/routes/dashboard');
 const usersRoutes = require('./routes/users');
+const parcelsRoutes = require('../src/routes/parcels');
+const seasonsRoutes = require('../src/routes/seasons');
+const cultivationsRoutes = require('../src/routes/cultivations');
+const interventionsRoutes = require('../src/routes/interventions');
+
 
 const { authenticate } = require('../src/middleware/auth');
 
@@ -38,6 +43,11 @@ app.use('/api/recoltes', recoltesRoutes);
 app.use('/api/intrants', intrantsRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api', usersRoutes);
+app.use('/api/parcels', parcelsRoutes);
+app.use('/api/seasons', seasonsRoutes);
+app.use('/api/cultivations', cultivationsRoutes);
+app.use('/api/interventions', interventionsRoutes);
+
 
 // Test connexion DB
 app.get('/api/test-db', async (req, res) => {
