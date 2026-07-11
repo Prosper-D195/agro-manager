@@ -13,6 +13,8 @@ const parcelsRoutes = require('../src/routes/parcels');
 const seasonsRoutes = require('../src/routes/seasons');
 const cultivationsRoutes = require('../src/routes/cultivations');
 const interventionsRoutes = require('../src/routes/interventions');
+const comptaRoutes = require('../src/routes/compta');
+
 
 
 const { authenticate } = require('../src/middleware/auth');
@@ -47,6 +49,7 @@ app.use('/api/parcels', parcelsRoutes);
 app.use('/api/seasons', seasonsRoutes);
 app.use('/api/cultivations', cultivationsRoutes);
 app.use('/api/interventions', interventionsRoutes);
+app.use('/api/compta', comptaRoutes);
 
 
 // Test connexion DB
