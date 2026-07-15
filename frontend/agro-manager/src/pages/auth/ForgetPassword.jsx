@@ -1,15 +1,18 @@
 import { useState } from 'react';
-import { api } from '../../services/api';
+import api from '../../services/api';
+
 
 export default function ForgetPassword() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
     setError('');
+
 
     try {
       await api.post('/auth/request-reset-password', { email });
@@ -23,6 +26,7 @@ export default function ForgetPassword() {
     }
   };
 
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-green-50">
       <div className="w-full max-w-md bg-white p-6 rounded shadow">
@@ -31,17 +35,20 @@ export default function ForgetPassword() {
         </h1>
         <h2 className="text-lg font-semibold mb-4">Mot de passe oublié</h2>
 
+
         {message && (
           <div className="mb-4 text-green-700 bg-green-100 p-2 rounded">
             {message}
           </div>
         )}
 
+
         {error && (
           <div className="mb-4 text-red-600 bg-red-100 p-2 rounded">
             {error}
           </div>
         )}
+
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
@@ -55,6 +62,7 @@ export default function ForgetPassword() {
             />
           </div>
 
+
           <button
             type="submit"
             className="bg-green-700 text-white py-2 rounded hover:bg-green-800"
@@ -62,6 +70,7 @@ export default function ForgetPassword() {
             Envoyer le lien de réinitialisation
           </button>
         </form>
+
 
         <div className="mt-4 text-sm">
           <a

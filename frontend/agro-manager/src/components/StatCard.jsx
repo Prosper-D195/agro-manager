@@ -1,8 +1,27 @@
-export default function StatCard({ title, value, color = 'bg-green-100 text-green-800' }) {
+import React from "react";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+} from "@mui/material";
+
+const StatCard = ({ title, value, icon, color }) => {
   return (
-    <div className={`p-4 rounded shadow ${color}`}>
-      <div className="text-sm">{title}</div>
-      <div className="text-2xl font-bold">{value}</div>
-    </div>
+    <Card>
+      <CardContent>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          {icon}
+          <Box>
+            <Typography variant="h6">{value}</Typography>
+            <Typography variant="body2" color="text.secondary">
+              {title}
+            </Typography>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
   );
-}
+};
+
+export default StatCard;

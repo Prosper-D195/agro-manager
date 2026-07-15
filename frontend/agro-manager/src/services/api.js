@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'http://localhost:5000/api'; // ou URL déployée
+const API_URL = "http://localhost:5000/api";
 
-export const api = axios.create({
+export default axios.create({
   baseURL: API_URL,
   withCredentials: true,
 });
