@@ -1,15 +1,21 @@
 const { Sequelize } = require('sequelize');
 const sequelize = require('../config/database');
-
 const Culture = require('../models/culture');
 
 const Recolte = sequelize.define('recolte', {
-  culture_id: {
+  cultureId: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    allowNull: false,
+    field: 'culture_id',
+    references: {
+      model: 'cultures',
+      key: 'id'
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
   },
   date_recolte: {
-    type: Sequelize.DATE,
+    type: Sequelize.DATEONLY,
     allowNull: false
   },
   quantite: {
@@ -17,24 +23,26 @@ const Recolte = sequelize.define('recolte', {
     allowNull: false
   },
   unite: {
-    type: Sequelize.STRING(50),
+    type: Sequelize.STRING(20),
     allowNull: false
   },
   notes: {
     type: Sequelize.TEXT,
+    allowNull: true
+  },
+  culture_name: {
+    type: Sequelize.STRING(255),
     allowNull: true
   }
 }, {
   timestamps: true,
   createdAt: 'created_at',
   updatedAt: false,
-  tableName: 'recoltes',
-  // Utiliser culture_id comme clé externe
-  foreignKey: 'culture_id'
+  tableName: 'recoltes'
 });
 
 Recolte.belongsTo(Culture, {
-  foreignKey: 'culture_id',
+  foreignKey: 'cultureId',
   as: 'culture'
 });
 

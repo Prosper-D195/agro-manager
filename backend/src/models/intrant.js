@@ -35,9 +35,7 @@ const Intrant = sequelize.define('intrant', {
   timestamps: true,
   createdAt: 'created_at',
   updatedAt: 'updated_at',
-  tableName: 'intrants',
-  // Pour PostgreSQL, on gère updated_at en double si besoin
-  // mais Sequelize va le mettre à jour automatiquement
+  tableName: 'intrants'
 });
 
 module.exports = Intrant;

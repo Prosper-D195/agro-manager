@@ -1,6 +1,11 @@
 const Intrant = require('../models/intrant');
 
-// GET /api/intrants
+const computeStatus = (stock, seuil) => {
+  if (stock === 0 || stock <= seuil * 0.5) return 'critique';
+  if (stock <= seuil) return 'alerte';
+  return 'OK';
+};
+
 const getAll = async (req, res) => {
   try {
     const intrants = await Intrant.findAll();
@@ -8,13 +13,6 @@ const getAll = async (req, res) => {
     const withStatus = intrants.map((i) => {
       const stock = parseFloat(i.stock_actuel);
       const seuil = parseFloat(i.seuil_alerte);
-
-      let status = 'OK';
-      if (stock === 0 || stock <= seuil * 0.5) {
-        status = 'critique';
-      } else if (stock <= seuil) {
-        status = 'alerte';
-      }
 
       return {
         id: i.id,
@@ -26,7 +24,7 @@ const getAll = async (req, res) => {
         unite_stock: i.unite_stock,
         created_at: i.created_at,
         updated_at: i.updated_at,
-        status
+        status: computeStatus(stock, seuil)
       };
     });
 
@@ -37,7 +35,6 @@ const getAll = async (req, res) => {
   }
 };
 
-// GET /api/intrants/:id
 const getById = async (req, res) => {
   try {
     const intrant = await Intrant.findByPk(req.params.id);
@@ -47,13 +44,6 @@ const getById = async (req, res) => {
 
     const stock = parseFloat(intrant.stock_actuel);
     const seuil = parseFloat(intrant.seuil_alerte);
-
-    let status = 'OK';
-    if (stock === 0 || stock <= seuil * 0.5) {
-      status = 'critique';
-    } else if (stock <= seuil) {
-      status = 'alerte';
-    }
 
     return res.json({
       id: intrant.id,
@@ -65,7 +55,7 @@ const getById = async (req, res) => {
       unite_stock: intrant.unite_stock,
       created_at: intrant.created_at,
       updated_at: intrant.updated_at,
-      status
+      status: computeStatus(stock, seuil)
     });
   } catch (err) {
     console.error(err);
@@ -73,7 +63,6 @@ const getById = async (req, res) => {
   }
 };
 
-// POST /api/intrants
 const create = async (req, res) => {
   try {
     const {
@@ -98,14 +87,13 @@ const create = async (req, res) => {
       unite_stock
     });
 
-    return res.status(201).json({ intrant: intrant });
+    return res.status(201).json({ intrant });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Erreur lors de la création de l’intrant' });
   }
 };
 
-// PUT /api/intrants/:id
 const update = async (req, res) => {
   try {
     const intrant = await Intrant.findByPk(req.params.id);
@@ -123,22 +111,21 @@ const update = async (req, res) => {
     } = req.body;
 
     await intrant.update({
-      nom: nom || intrant.nom,
-      type: type || intrant.type,
-      culture_cible: culture_cible || intrant.culture_cible,
-      stock_actuel: stock_actuel || intrant.stock_actuel,
-      seuil_alerte: seuil_alerte || intrant.seuil_alerte,
-      unite_stock: unite_stock || intrant.unite_stock
+      nom: nom ?? intrant.nom,
+      type: type ?? intrant.type,
+      culture_cible: culture_cible ?? intrant.culture_cible,
+      stock_actuel: stock_actuel ?? intrant.stock_actuel,
+      seuil_alerte: seuil_alerte ?? intrant.seuil_alerte,
+      unite_stock: unite_stock ?? intrant.unite_stock
     });
 
-    return res.json({ intrant: intrant });
+    return res.json({ intrant });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Erreur lors de la modification de l’intrant' });
   }
 };
 
-// DELETE /api/intrants/:id
 const deleteOne = async (req, res) => {
   try {
     const intrant = await Intrant.findByPk(req.params.id);
