@@ -3,27 +3,33 @@ import { useAuth } from './hooks/useAuth';
 import { PrivateRoute } from './components/PrivateRoute';
 import Layout from './components/Layout';
 
+
 // Auth
 import Login from './pages/auth/Login';
 import ForgetPassword from './pages/auth/ForgetPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 
+
 // Dashboard
 import AgriculturalDashboard from './pages/dashboard/AgriculturalDashboard';
 import FinancialDashboardPage from './pages/dashboard/FinancialDashboardPage';
+
 
 // Cultures
 import CulturesList from './pages/cultures/CulturesList';
 import CultureForm from './pages/cultures/CultureForm';
 
+
 // Récoltes
 import RecoltesList from './pages/recoltes/RecoltesList';
 import RecolteForm from './pages/recoltes/RecolteForm';
+
 
 // Intrants
 import IntrantsList from './pages/intrants/IntrantsList';
 import IntrantForm from './pages/intrants/IntrantForm';
 import IntrantStockUpdate from './pages/intrants/IntrantStockUpdate';
+
 
 // Compta
 import CategoriesList from './pages/compta/CategoriesList';
@@ -31,8 +37,10 @@ import CategoryForm from './pages/compta/CategoryForm';
 import OperationsList from './pages/compta/OperationsList';
 import OperationForm from './pages/compta/OperationForm';
 
+
 function App() {
   const { user } = useAuth();
+
 
   return (
     <BrowserRouter>
@@ -41,6 +49,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/cultures" element={<CulturesList />} />
+
 
         {/* Redirect root */}
         <Route
@@ -52,6 +62,7 @@ function App() {
           }
         />
 
+
         {/* Dashboard */}
         <Route
           path="/dashboard"
@@ -62,6 +73,7 @@ function App() {
           }
         />
 
+
         <Route
           path="/financial-dashboard"
           element={
@@ -70,6 +82,7 @@ function App() {
             </PrivateRoute>
           }
         />
+
 
         {/* Cultures */}
         <Route
@@ -97,6 +110,7 @@ function App() {
           }
         />
 
+
         {/* Récoltes */}
         <Route
           path="/recoltes"
@@ -122,6 +136,7 @@ function App() {
             </PrivateRoute>
           }
         />
+
 
         {/* Intrants */}
         <Route
@@ -156,6 +171,7 @@ function App() {
             </PrivateRoute>
           }
         />
+
 
         {/* Compta */}
         <Route
@@ -210,5 +226,6 @@ function App() {
     </BrowserRouter>
   );
 }
+
 
 export default App;
