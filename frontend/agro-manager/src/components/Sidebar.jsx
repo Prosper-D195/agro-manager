@@ -16,6 +16,10 @@ export default function Sidebar() {
           Cultures
         </NavLink>
 
+        <NavLink to="/cultivations" className="hover:bg-green-100 p-2 rounded">
+          Cultivations
+        </NavLink>
+
         <NavLink to="/recoltes" className="hover:bg-green-100 p-2 rounded">
           Récoltes
         </NavLink>
@@ -30,9 +34,7 @@ export default function Sidebar() {
           </NavLink>
         </RoleGuard>
 
-        <NavLink to="/categories" className="hover:bg-green-100 p-2 rounded">
-          Catégories
-        </NavLink>
+        {/* "Catégories" retiré du menu */}
 
         <NavLink to="/operations" className="hover:bg-green-100 p-2 rounded">
           Opérations
