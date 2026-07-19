@@ -1,9 +1,9 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const ComptaCategory = require('./comptaCategory');
-const Culture = require('./culture');   // si tu as déjà ce modèle
-const Recolte = require('./recolte');   // si tu as déjà ce modèle
-const Intrant = require('./intrant');   // si tu as déjà ce modèle
+const Culture = require('./culture');
+const Recolte = require('./recolte');
+const Intrant = require('./intrant');
 
 const ComptaOperation = sequelize.define('comptaOperation', {
   id: {
@@ -19,7 +19,7 @@ const ComptaOperation = sequelize.define('comptaOperation', {
     }
   },
   date: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
     defaultValue: DataTypes.NOW
   },
@@ -51,6 +51,10 @@ const ComptaOperation = sequelize.define('comptaOperation', {
       key: 'id'
     }
   },
+  culture_nom: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
   recolte_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
@@ -59,6 +63,10 @@ const ComptaOperation = sequelize.define('comptaOperation', {
       key: 'id'
     }
   },
+  recolte_nom: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
   intrant_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
@@ -66,6 +74,10 @@ const ComptaOperation = sequelize.define('comptaOperation', {
       model: Intrant,
       key: 'id'
     }
+  },
+  intrant_nom: {
+    type: DataTypes.TEXT,
+    allowNull: true
   },
   commentaire: {
     type: DataTypes.TEXT,

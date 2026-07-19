@@ -1,31 +1,47 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
+const linkClass = ({ isActive }) =>
+  `px-3 py-2 rounded-lg text-sm font-medium transition ${
+    isActive
+      ? 'bg-[#0f2747] text-white shadow-sm'
+      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+  }`;
+
 export default function Navbar() {
   const { user, logout } = useAuth();
 
   return (
-    <header className="bg-green-700 text-white p-4 flex items-center justify-between">
-      <div className="font-bold text-lg">Agro Manager</div>
-      <nav className="flex gap-4">
-        <NavLink to="/dashboard" className="hover:underline">Tableau de bord</NavLink>
-        <NavLink to="/cultures" className="hover:underline">Cultures</NavLink>
-        <NavLink to="/recoltes" className="hover:underline">Récoltes</NavLink>
-        <NavLink to="/intrants" className="hover:underline">Intrants</NavLink>
-        <NavLink to="/categories" className="hover:underline">Catégories</NavLink>
-        <NavLink to="/operations" className="hover:underline">Opérations</NavLink>
-        <NavLink to="/financial-dashboard" className="hover:underline">Compta</NavLink>
-      </nav>
-      <div className="flex items-center gap-4">
-        <div className="text-sm">
-          {user?.nom} ({user?.role})
+    <header className="sticky top-0 z-20 backdrop-blur-md bg-white/75 border-b border-white/60 px-6 py-4 shadow-sm">
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl font-bold text-[#0f2747]">Agro Manager</h1>
+          <p className="text-xs text-slate-500">Gestion agricole et comptable</p>
         </div>
-        <button
-          onClick={() => logout()}
-          className="bg-white text-green-700 px-3 py-1 rounded hover:bg-green-100"
-        >
-          Déconnexion
-        </button>
+
+        <nav className="hidden lg:flex items-center gap-2">
+          <NavLink to="/dashboard" className={linkClass}>Tableau de bord</NavLink>
+          <NavLink to="/cultures" className={linkClass}>Cultures</NavLink>
+          <NavLink to="/recoltes" className={linkClass}>Récoltes</NavLink>
+          <NavLink to="/intrants" className={linkClass}>Intrants</NavLink>
+          <NavLink to="/categories" className={linkClass}>Catégories</NavLink>
+          <NavLink to="/operations" className={linkClass}>Opérations</NavLink>
+          <NavLink to="/financial-dashboard" className={linkClass}>Compta</NavLink>
+        </nav>
+
+        <div className="flex items-center gap-3">
+          <div className="hidden md:block text-right">
+            <div className="text-sm font-medium text-slate-800">{user?.nom}</div>
+            <div className="text-xs text-slate-500">{user?.role}</div>
+          </div>
+
+          <button
+            onClick={() => logout()}
+            className="px-4 py-2 rounded-lg bg-[#0f2747] text-white text-sm font-medium hover:bg-[#17385f] transition"
+          >
+            Déconnexion
+          </button>
+        </div>
       </div>
     </header>
   );
