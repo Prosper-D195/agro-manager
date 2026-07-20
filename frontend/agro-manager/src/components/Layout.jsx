@@ -23,12 +23,12 @@ export default function Layout({ children }) {
       <div className="relative z-10 flex flex-1">
         <Sidebar />
 
-        <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-x-auto">
-          <div className="max-w-7xl mx-auto min-h-[calc(100vh-180px)] flex flex-col">
+        <main className="flex-1 min-w-0 p-3 sm:p-4 md:p-6 lg:p-8">
+          <div className="max-w-7xl mx-auto min-h-[calc(100vh-140px)] flex flex-col">
             <div className="flex-1">{children}</div>
 
-            <footer className="mt-8 rounded-2xl border border-white/60 bg-white/55 backdrop-blur-md px-5 py-4 text-sm text-gray-600 shadow-sm">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <footer className="mt-6 sm:mt-8 rounded-2xl border border-white/60 bg-white/55 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm text-gray-600 shadow-sm">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
                 <div>
                   <div className="font-semibold text-gray-800">Agro Manager</div>
                   <p>Solution de gestion pour exploitations agricoles.</p>
