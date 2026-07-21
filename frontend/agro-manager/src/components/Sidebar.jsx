@@ -1,7 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { RoleGuard } from '../components/RoleGuard';
+import { RoleGuard } from './RoleGuard';
 import { useState } from 'react';
+import { Settings } from 'lucide-react';
 
 const linkClass = ({ isActive }) =>
   `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition ${
@@ -23,7 +24,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Sidebar desktop */}
       <aside className="w-72 bg-[#0f2747] text-white border-r border-white/10 hidden md:flex md:flex-col min-h-screen shadow-xl">
         <div className="p-6 border-b border-white/10">
           <div className="text-lg font-bold text-white">Agro Manager</div>
@@ -64,10 +64,14 @@ export default function Sidebar() {
           <NavLink to="/financial-dashboard" className={linkClass}>
             <span>Dashboard financier</span>
           </NavLink>
+
+          <NavLink to="/settings" className={linkClass}>
+            <Settings size={18} />
+            <span>Paramètres</span>
+          </NavLink>
         </nav>
       </aside>
 
-      {/* Overlay et panneau mobile */}
       {open && (
         <div
           className="fixed inset-0 bg-black/40 z-40 md:hidden"
@@ -95,30 +99,42 @@ export default function Sidebar() {
 
         <nav className="p-4 space-y-2 overflow-y-auto h-[calc(100%-64px)]">
           <NavLink to="/dashboard" className={mobileLinkClass} onClick={() => setOpen(false)}>
-            <span>E</span>
+            <span>Tableau de bord</span>
           </NavLink>
+
           <NavLink to="/cultures" className={mobileLinkClass} onClick={() => setOpen(false)}>
             <span>Cultures</span>
           </NavLink>
+
           <NavLink to="/cultivations" className={mobileLinkClass} onClick={() => setOpen(false)}>
             <span>Cultivations</span>
           </NavLink>
+
           <NavLink to="/recoltes" className={mobileLinkClass} onClick={() => setOpen(false)}>
             <span>Récoltes</span>
           </NavLink>
+
           <NavLink to="/intrants" className={mobileLinkClass} onClick={() => setOpen(false)}>
             <span>Intrants</span>
           </NavLink>
+
           <RoleGuard roles={['admin']} user={user}>
             <NavLink to="/users" className={mobileLinkClass} onClick={() => setOpen(false)}>
               <span>Utilisateurs</span>
             </NavLink>
           </RoleGuard>
+
           <NavLink to="/operations" className={mobileLinkClass} onClick={() => setOpen(false)}>
             <span>Opérations</span>
           </NavLink>
+
           <NavLink to="/financial-dashboard" className={mobileLinkClass} onClick={() => setOpen(false)}>
             <span>Dashboard financier</span>
+          </NavLink>
+
+          <NavLink to="/settings" className={mobileLinkClass} onClick={() => setOpen(false)}>
+            <Settings size={18} />
+            <span>Paramètres</span>
           </NavLink>
         </nav>
       </aside>

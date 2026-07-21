@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from './hooks/useAuth';
 import { PrivateRoute } from './components/PrivateRoute';
 import Layout from './components/Layout';
 
@@ -34,9 +33,14 @@ import CategoryForm from './pages/compta/CategoryForm';
 import OperationsList from './pages/compta/OperationsList';
 import OperationForm from './pages/compta/OperationForm';
 
-function App() {
-  const { user } = useAuth();
+// Utilisateurs
+import UsersList from './pages/users/UsersList';
+import UserForm from './pages/users/UserForm';
 
+// Paramètres
+import SettingsPage from './pages/settings/SettingsPage';
+
+function App() {
   return (
     <BrowserRouter>
       <Routes>
@@ -216,6 +220,42 @@ function App() {
           element={
             <PrivateRoute>
               <Layout><OperationForm /></Layout>
+            </PrivateRoute>
+          }
+        />
+
+        {/* Paramètres */}
+        <Route
+          path="/settings"
+          element={
+            <PrivateRoute>
+              <Layout><SettingsPage /></Layout>
+            </PrivateRoute>
+          }
+        />
+
+        {/* Utilisateurs */}
+        <Route
+          path="/users"
+          element={
+            <PrivateRoute>
+              <Layout><UsersList /></Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/users/new"
+          element={
+            <PrivateRoute>
+              <Layout><UserForm /></Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/users/:id/edit"
+          element={
+            <PrivateRoute>
+              <Layout><UserForm /></Layout>
             </PrivateRoute>
           }
         />
